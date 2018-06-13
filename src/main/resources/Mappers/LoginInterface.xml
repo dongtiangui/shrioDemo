@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Mapper.LoginInterface">
+
+
+    <select id="getName" resultType="com.EntiryPackage.userEntiry" parameterType="string">
+        select name,pass from test where name=#{name}
+    </select>
+
+    <insert id="insert" parameterType="com.EntiryPackage.userEntiry">
+
+        insert into test(name, pass) values (#{name},#{pass})
+
+    </insert>
+
+</mapper>

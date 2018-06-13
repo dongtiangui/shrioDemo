@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+    <!--安全管理器-->
+     <context:component-scan base-package="com.Service"/>
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager" >
+
+        <property name="realm" ref="realm"/>
+        <property name="cacheManager" ref="ShiroCacheManager"/>
+    </bean>
+
+
+    <bean id="ehCacheManagerFactoryBean" class ="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+        <property name="configLocation" value="classpath:shiro-ehcache.xml" />
+        <property name="shared" value="true"></property>
+    </bean>
+
+
+
+    <bean id="ehCacheCacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+         <property name="cacheManager" ref="ehCacheManagerFactoryBean"/>
+
+    </bean>
+
+
+    <bean id="ShiroCacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+        <property name="cacheManager" ref="ehCacheManagerFactoryBean"/>
+    </bean>
+
+    <!--自定义realm-->
+    <bean id="realm" class="com.shrio.MyRealm">
+        <property name="loginUser" ref="loginGetnameByName"/>
+
+    </bean>
+
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager"/>
+        <!--没有权限-->
+        <property name="unauthorizedUrl" value="/error.jsp"/>
+        <!--登陆失败-->
+        <property name="loginUrl" value="/index.jsp"/>
+        <property name="filterChainDefinitions">
+            <value>
+                /login=anon
+                /logout=logout
+                /success=anon
+                /**=authc
+            </value>
+
+        </property>
+
+    </bean>
+
+
+    <bean id="mappingExceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+
+        <property name="exceptionMappings">
+            <props>
+                <prop key="org.apache.shiro.authz.UnauthenticatedException">redirect:/error.jsp</prop>
+            </props>
+        </property>
+
+    </bean>
+</beans>

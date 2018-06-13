@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <!--&lt;!&ndash;配置数据库配置&ndash;&gt;-->
+    <!--<properties>-->
+        <!--<property name="driverclass" value="com.mysql.jdbc.Driver"/>-->
+        <!--<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/education_system?characterEncoding=utf8"/>-->
+        <!--<property name="user" value="root"/>-->
+        <!--<property name="password" value="123456"/>-->
+    <!--</properties>-->
+    <!--开启驼峰命名法制-->
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+    <!--起别名-->
+    <!--<typeAliases>-->
+        <!--<typeAlias type="com.databaseEntiry.LoginEntiry" alias="LoginEntiry"/>-->
+        <!--&lt;!&ndash;<typeAlias type="com.databaseEntiry.Collection" alias="Collection"/>&ndash;&gt;-->
+    <!--</typeAliases>-->
+    <!--配置数据源环境-->
+    <!--<environments default="development">-->
+        <!--<environment id="development">-->
+            <!--<transactionManager type="JDBC"/>-->
+            <!--<dataSource type="POOLED">-->
+                <!--<property name="driver" value="${driverclass}"/>-->
+                <!--<property name="url" value="${jdbcUrl}"/>-->
+                <!--<property name="username" value="${user}"/>-->
+                <!--<property name="password" value="${password}"/>-->
+            <!--</dataSource>-->
+        <!--</environment>-->
+    <!--</environments>-->
+    <!--映射POJO-->
+    <mappers>
+        <mapper resource="Mappers/LoginInterface.xml"/>
+    </mappers>
+
+</configuration>
